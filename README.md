@@ -14,7 +14,7 @@ Software dependencies:
 1. Clone the repository into a directory on your computer and `cd` into the root directory of the `SYNULATOR` package.
 
 ```zsh
-git clone https://github.com/yourusername/SYNULATOR.git
+git clone https://github.com/hart-lab/SYNULATOR.git
 cd SYNULATOR
 ```
 

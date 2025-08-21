@@ -8,3 +8,5 @@
 # ignore build info
 syenv
 SYNULATOR.egg-info
+build/
+dist/
