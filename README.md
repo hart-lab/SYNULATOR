@@ -40,15 +40,7 @@ synulator -h
 ```
 You should see the following:
 ```zsh
-usage: synulator [-h] -o OUTPUT [--num_total_genes NUM_TOTAL_GENES] [--num_fitness_genes NUM_FITNESS_GENES]
-                 [--mu_k_wt MU_K_WT] [--mu_k_fitness_min MU_K_FITNESS_MIN] [--mu_k_fitness_max MU_K_FITNESS_MAX]
-                 [--genetic_interaction_frequency GENETIC_INTERACTION_FREQUENCY]
-                 [--genetic_interaction_fitness_min GENETIC_INTERACTION_FITNESS_MIN]
-                 [--genetic_interaction_fitness_max GENETIC_INTERACTION_FITNESS_MAX]
-                 [--wt_gi_multiplier WT_GI_MULTIPLIER] [--num_guides NUM_GUIDES] [--guide_stddev GUIDE_STDDEV]
-                 [--sigma_k SIGMA_K] [--time TIME] [--transduction_depth TRANSDUCTION_DEPTH]
-                 [--median_read_depth MEDIAN_READ_DEPTH] [--overdispersion_param OVERDISPERSION_PARAM]
-                 [--pseudocount PSEUDOCOUNT] [--seed SEED]
+usage: synulator [-h] -o OUTPUT [--num_total_genes NUM_TOTAL_GENES] [--num_fitness_genes NUM_FITNESS_GENES] [--mu_k_wt MU_K_WT] [--mu_k_fitness_min MU_K_FITNESS_MIN] [--mu_k_fitness_max MU_K_FITNESS_MAX] [--genetic_interaction_frequency GENETIC_INTERACTION_FREQUENCY] [--genetic_interaction_fitness_min GENETIC_INTERACTION_FITNESS_MIN] --genetic_interaction_fitness_max GENETIC_INTERACTION_FITNESS_MAX] [--wt_gi_multiplier WT_GI_MULTIPLIER] [--num_guides NUM_GUIDES] [--sigma_k SIGMA_K] [--time TIME] [--transduction_depth TRANSDUCTION_DEPTH] [--median_read_depth MEDIAN_READ_DEPTH] [--overdispersion_param OVERDISPERSION_PARAM] [--pseudocount PSEUDOCOUNT] [--seed SEED]
 
 Simulate genetic interaction screen data.
 ```
@@ -76,7 +68,6 @@ synulator -o ./test.txt --num_total_genes 300 --num_fitness_genes 50 --time 6
 | `--genetic_interaction_fitness_max` | Maximum fitness for genetic interaction                              | `1.0`    |
 | `--wt_gi_multiplier`                | Multiplier to reduce genetic interaction frequency in wildtype genes | `0.1`    |
 | `--num_guides`                      | Number of guides targeting each gene                                 | `4`      |
-| `--guide_stddev`                    | Standard deviation of guide-level fitness effects                    | `0.0755` |
 | `--sigma_k`                         | Standard deviation of fitness means                                  | `0.03`   |
 | `--time`                            | Number of cell doublings (time steps)                                | `8`      |
 | `--transduction_depth`              | Initial cell transduction depth                                      | `500`    |

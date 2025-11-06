@@ -35,9 +35,6 @@ DEFAULT_WT_GI_MULTIPLIER: float = 0.1
 DEFAULT_NUM_GUIDES: int = 4
 """number of guides targeting a gene or gene pair"""
 
-DEFAULT_GUIDE_STDDEV: float = 0.0755
-"""guide-level stddev of guides targeting a nonessential gene, estimated from DepMap"""
-
 DEFAULT_SIGMA_K: float = 0.03
 """stddev for mu_k"""
 

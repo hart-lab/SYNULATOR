@@ -12,7 +12,7 @@ import scipy.stats as stats
 
 
 def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, List[int]],
-                           num_guides: int, guide_stddev: float, sigma_k: float, time: int,
+                           num_guides: int, sigma_k: float, time: int,
                            transduction_depth: int, median_read_depth: int, 
                            overdispersion_param: float, pseudocount: int,
                            seed: Optional[int]) -> pd.DataFrame:
@@ -27,8 +27,6 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
             (output from `generate_fitness_matrix()`)
         num_guides : int
             Number of gRNAs per target gene or gene pair.
-        guide_stddev : float
-            Standard deviation for sampling guide-level `mu_k` values
         sigma_k : float
             Standard deviation for noise in fitness measurements
         time : int
@@ -67,6 +65,10 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
     num_genes_in_genelist = len(genelist)
     guide_level_data = []
 
+    # Set the largest possible guide stddev consistent with sigma_k total variance
+    guide_stddev = np.sqrt(num_guides) * sigma_k
+    print(f"[INFO] Guide-level stddev automatically set to {guide_stddev:.4f}")
+
     # populate the guide-level fitness table
     for i in range(num_genes_in_genelist):
         gene1 = str(genelist[i])
@@ -75,14 +77,12 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
             gene2 = str(genelist[j])
             gene2_label = 'wildtype' if j in gene_labels['wildtype'] else 'fitness'
             if (i==j):
-
                 # on the diagonal of the fitness matrix, we are dealing with single knockout fitness
                 mu_k = fitness_matrix.loc[i,i]
                 target = gene1
                 gi = 1.
                 guide_label = gene1_label
             else:
-
                 # off the diagonal, we are dealing with double knockout fitness. 
                 # Under the multiplicatiave model, this is ki * kj. 
                 # With interactions, this is ki * kj * GI(i,j)
@@ -90,11 +90,15 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
                 target = f'{gene1}_{gene2}'
                 gi = fitness_matrix.loc[i,j]
                 guide_label = f'{gene1_label}_{gene2_label}'
-                
+            
+            # gene-level latent mean to correct for increased variance from guides
+            sigma_latent_sq = sigma_k**2 - (guide_stddev**2 / num_guides)
+            mu_gene_latent = np.random.normal(loc=mu_k, scale=np.sqrt(sigma_latent_sq))
+
             # generate guide-level data for each target
             for guide_num in range(1, num_guides + 1):
                 guide_id = f'{target}_guide{guide_num}'
-                mu_k_guide = np.random.normal(loc=mu_k, scale=guide_stddev)
+                mu_k_guide = np.random.normal(loc=mu_gene_latent, scale=guide_stddev)
                 guide_level_data.append({
                     'guide_id': guide_id,
                     'target_id': target,
@@ -112,7 +116,7 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
 
     # we have mu_k for each target, and sigma_k as a noise term. 
     # Calculate Xt = X0 * 2^(kt), where k~N(mu_k, sigma_k)
-    fitness_table['k_obs'] = np.random.normal( loc=fitness_table['mu_k'].values, scale=sigma_k)
+    fitness_table['k_obs'] = np.random.normal(loc=fitness_table['mu_k'].values, scale=sigma_k)
     fitness_table['Xt'] = fitness_table.X0 * 2 ** (fitness_table.k_obs * time)
     
     # scale observed cell counts, Xt, to median library coverage/sequecing read depth
@@ -135,5 +139,8 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
     
     fitness_table = fitness_table.astype({'Reads_t': int}, copy=False, errors='raise')
     fitness_table.set_index('guide_id', inplace=True)
+
+    gene_means = fitness_table.groupby('target_id')['mu_k'].mean()
+    print("Empirical variance of averaged guides:", np.var(gene_means))
 
     return fitness_table

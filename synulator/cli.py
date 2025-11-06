@@ -40,8 +40,6 @@ def __main__():
     
     parser.add_argument('--num_guides', type=int, default=DEFAULT_NUM_GUIDES,
                         help="Number of guides per gene or pair")
-    parser.add_argument('--guide_stddev', type=float, default=DEFAULT_GUIDE_STDDEV,
-                        help="Standard deviation for guide-level fitness values")
     parser.add_argument('--sigma_k', type=float, default=DEFAULT_SIGMA_K,
                         help="Standard deviation for observed fitness noise")
     parser.add_argument('--time', type=int, default=DEFAULT_TIME,
