@@ -10,12 +10,18 @@ import numpy as np
 
 import scipy.stats as stats
 
+from synulator.utils.defaults import *
+
 
 def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, List[int]],
-                           num_guides: int, sigma_k: float, time: int,
-                           transduction_depth: int, median_read_depth: int, 
-                           overdispersion_param: float, pseudocount: int,
-                           seed: Optional[int]) -> pd.DataFrame:
+                           num_guides: int = DEFAULT_NUM_GUIDES,
+                           sigma_k: float = DEFAULT_SIGMA_K,
+                           time: int = DEFAULT_TIME,
+                           transduction_depth: int = DEFAULT_TRANSDUCTION_DEPTH,
+                           median_read_depth: int = DEFAULT_MEDIAN_READ_DEPTH,
+                           overdispersion_param: float = DEFAULT_OVERDISPERSION_PARM,
+                           pseudocount: int = DEFAULT_PSEUDOCOUNT,
+                           seed: Optional[int] = DEFAULT_SEED) -> pd.DataFrame:
     """
     Generate a guide-level fitness table based on a given fitness matrix.
 
@@ -93,6 +99,7 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
             
             # gene-level latent mean to correct for increased variance from guides
             sigma_latent_sq = sigma_k**2 - (guide_stddev**2 / num_guides)
+            sigma_latent_sq = max(sigma_latent_sq, 0.0)   # clamp floating-point rounding noise
             mu_gene_latent = np.random.normal(loc=mu_k, scale=np.sqrt(sigma_latent_sq))
 
             # generate guide-level data for each target

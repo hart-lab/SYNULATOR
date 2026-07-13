@@ -24,7 +24,7 @@ def run(args: Namespace) -> None:
 
     # 02: create fitness table
     fitness_table = generate_fitness_table(fitness_matrix, gene_labels, args.num_guides, 
-                                           args.guide_stddev, args.sigma_k, args.time, 
+                                           args.sigma_k, args.time, 
                                            args.transduction_depth, args.median_read_depth,
                                            args.overdispersion_param, args.pseudocount, args.seed)
 

@@ -47,7 +47,7 @@ DEFAULT_TRANSDUCTION_DEPTH: int = 500
 DEFAULT_MEDIAN_READ_DEPTH: int = 500
 """median library coverage/sequecing read depth for Xt (observed cell count) normalization"""
 
-DEFAULT_OVERDISPERSION_PARM: float = 0.5
+DEFAULT_OVERDISPERSION_PARAM: float = 0.5
 """overdispersion parameter for sequencing and experimental noise, must be 0 ~ 1"""
 
 DEFAULT_PSEUDOCOUNT: int = 1

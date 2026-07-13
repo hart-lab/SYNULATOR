@@ -9,13 +9,18 @@ from typing import Dict, List, Tuple
 import pandas as pd
 import numpy as np
 
+from synulator.utils.defaults import *
 
-def generate_fitness_matrix(num_total_genes: int, num_fitness_genes: int, mu_k_wt: float,
-                            mu_k_fitness_min: float, mu_k_fitness_max: float,
-                            genetic_interaction_frequency: float,
-                            genetic_interaction_fitness_min: float,
-                            genetic_interaction_fitness_max: float,
-                            wt_gi_multiplier: float) -> Tuple[pd.DataFrame, Dict[str, List[int]]]:
+
+def generate_fitness_matrix(num_total_genes: int = DEFAULT_NUM_TOTAL_GENES,
+                            num_fitness_genes: int = DEFAULT_NUM_FITNESS_GENES,
+                            mu_k_wt: float = DEFAULT_MU_K_WT,
+                            mu_k_fitness_min: float = DEFAULT_MU_K_FIT_MIN,
+                            mu_k_fitness_max: float = DEFAULT_MU_K_FIT_MAX,
+                            genetic_interaction_frequency: float = DEFAULT_GENETIC_INTERACTION_FREQUENCY,
+                            genetic_interaction_fitness_min: float = DEFAULT_GI_FIT_MIN,
+                            genetic_interaction_fitness_max: float = DEFAULT_GI_FIT_MAX,
+                            wt_gi_multiplier: float = DEFAULT_WT_GI_MULTIPLIER) -> Tuple[pd.DataFrame, Dict[str, List[int]]]:
     """
     Generate an NxN matrix of target knockout fitness values.
     A[i,i] = single gene fitness, where 1.0 = wildtype and 0.0 = total loss of proliferation

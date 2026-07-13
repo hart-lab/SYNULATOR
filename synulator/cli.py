@@ -48,7 +48,7 @@ def __main__():
                         help="Initial transduction depth")
     parser.add_argument('--median_read_depth', type=int, default=DEFAULT_MEDIAN_READ_DEPTH,
                         help="Median read depth for normalization")
-    parser.add_argument('--overdispersion_param', type=float, default=DEFAULT_OVERDISPERSION_PARM,
+    parser.add_argument('--overdispersion_param', type=float, default=DEFAULT_OVERDISPERSION_PARAM,
                         help="Overdispersion parameter for sequencing noise; must be 0 ~ 1")
     parser.add_argument('--pseudocount', type=int, default=DEFAULT_PSEUDOCOUNT,
                         help="Pseudocount added to avoid zeroes")
