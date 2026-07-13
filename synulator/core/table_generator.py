@@ -19,7 +19,7 @@ def generate_fitness_table(fitness_matrix: pd.DataFrame, gene_labels: Dict[str, 
                            time: int = DEFAULT_TIME,
                            transduction_depth: int = DEFAULT_TRANSDUCTION_DEPTH,
                            median_read_depth: int = DEFAULT_MEDIAN_READ_DEPTH,
-                           overdispersion_param: float = DEFAULT_OVERDISPERSION_PARM,
+                           overdispersion_param: float = DEFAULT_OVERDISPERSION_PARAM,
                            pseudocount: int = DEFAULT_PSEUDOCOUNT,
                            seed: Optional[int] = DEFAULT_SEED) -> pd.DataFrame:
     """
